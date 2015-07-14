@@ -1,10 +1,15 @@
 #!/usr/bin/python -B                                                                      
 
+"""
+Map word2vec vectors to labels stored in a '|' separated file.
+Output vectors in libsvm format ready for training/testing.
+"""
+
 NEGLABEL = 6
 NEGEXAMPLES = 2000
 DIMENSIONS = 200
-LABELS = 'pmc-vocab-100k-labels.txt'
-VECTORS = 'pmc-w2v-100k.txt'
+LABELS = '/Users/dima/Boston/Vectors/SemType/pmc-vocab-100k-labels.txt'
+VECTORS = '/Users/dima/Boston/Vectors/SemType/pmc-w2v-100k.txt'
 TOINT = {'AnatomicalSiteMention':1, 
          'DiseaseDisorderMention':2, 
          'MedicationMention':3, 
