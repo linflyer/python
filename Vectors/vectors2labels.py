@@ -5,30 +5,42 @@ Map word2vec vectors to labels stored in a '|' separated file.
 Output vectors in libsvm format ready for training/testing.
 """
 
-NEGLABEL = 6
+NEGLABEL = 4 
 NEGEXAMPLES = 2000
 DIMENSIONS = 200
-LABELS = '/Users/dima/Boston/Vectors/SemType/pmc-vocab-200k-labels.txt'
+CUI2TUI = '/Users/dima/Boston/DictLookup/cui2tui.txt'
+TUI2SEMTYPE = '/Users/dima/Boston/DictLookup/tui2semtype.txt'
 VECTORS = '/Users/dima/Boston/Vectors/SemType/pmc-w2v-200k.txt'
-TOINT = {'AnatomicalSiteMention':1, 
-         'DiseaseDisorderMention':2, 
-         'MedicationMention':3, 
-         'ProcedureMention':4, 
-         'SignSymptomMention':5}
 
-def read_labels():
-  """Read label file into a dictionary"""
+def read_cui_tui_map():
+  """ """
+  
+  # key: word, value: set of tuis
+  tui_lookup = {}
 
-  # key: word, value = set of semantic types
-  label_lookup = {} 
+  for line in open(CUI2TUI):
+    if line.startswith('CUI'):
+      continue # header
+    cui, word, tui = line.strip().split('|')
+    if not tui_lookup.has_key(word):
+      tui_lookup[word] = set()
+    tui_lookup[word].add(tui)
 
-  for line in open(LABELS):
-    word, label = line.strip().split('|')
-    if not label_lookup.has_key(word):
-      label_lookup[word] = set()
-    label_lookup[word].add(label)
+  return tui_lookup
 
-  return label_lookup
+def read_tui_semtype_map():
+  """ """
+
+  # key: tui, value: semantic type
+  tui2semtype = {}
+  
+  for line in open(TUI2SEMTYPE):
+    if line.startswith('#'):
+      continue # comments
+    tui, semtype = line.strip().split('|')
+    tui2semtype[tui] = semtype
+
+  return tui2semtype
 
 def libsvm_vector(word2vec_vector):
   """Convert a list of numbers to a libsvm vector"""
