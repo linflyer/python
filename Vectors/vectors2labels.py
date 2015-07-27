@@ -6,12 +6,11 @@ Output vectors in libsvm format ready for training/testing.
 """
 
 NEGLABEL = 4 
-NEGEXAMPLES = 2000
+NEGEXAMPLES = 5000
 DIMENSIONS = 200
 CUI2TUI = '/Users/dima/Boston/DictLookup/cui2tui.txt'
 TUI2SEMTYPE = '/Users/dima/Boston/DictLookup/tui2semtype.txt'
-VECTORS = '/Users/dima/Boston/Vectors/SemType/100K/pmc-w2v-100k.txt'
-# VECTORS = '/Users/dima/Boston/Vectors/Models/PubMed-w2v.txt'
+VECTORS = '/Users/dima/Boston/Vectors/Models/wikipedia-pubmed-and-PMC-w2v.txt'
 
 def read_cui_tui_map():
   """ """
@@ -76,9 +75,6 @@ if __name__ == "__main__":
 
   cui2semtype = get_cui_semtype_map()
 
-  print cui2semtype['ms']
-  exit()
- 
   for line in open(VECTORS):
     elements = line.split()
     word = elements[0]
@@ -101,5 +97,5 @@ if __name__ == "__main__":
       break
     if not cui2semtype.has_key(word):
       sampled_so_far = sampled_so_far + 1
-      vector = libsvm_vector(elements[1:DIMENSIONS + 1])
+      vector = make_libsvm_vector(elements[1:DIMENSIONS + 1])
       print NEGLABEL, vector
