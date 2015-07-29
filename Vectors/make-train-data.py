@@ -91,8 +91,6 @@ def make_positive_examples(cui2semtype):
       continue # skip word2vec model header
     if cui2semtype.has_key(word):
       label_set = cui2semtype[word]
-      # if len(label_set) > 1:
-      #   continue # skip polysemous words
       vector = make_libsvm_vector(elements[1:DIMENSIONS + 1])
       label = list(label_set)[0]
       print label, vector
